@@ -1,38 +1,29 @@
-import pytest
 from selenium.webdriver.common.by import By
-from selenium import webdriver
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions
-def test_tarnsfer_to_sauces_in_constructor_click_on_sauce_souce_active():
-    driver = webdriver.Chrome()
-    driver.get("https://stellarburgers.nomoreparties.site/")
+from locators import Locators
+from config import url
 
-    driver.find_element(By.XPATH, ".//div[@class='tab_tab__1SPyG  pt-4 pr-10 pb-4 pl-10 noselect']/span[text()='Соусы']").click()
+class TestElementsOfConstructor:
+    def test_tarnsfer_to_sauces_in_constructor_click_on_sauce_souce_active(self, driver):
+        driver.get(url)
 
-    element = driver.find_element(By.XPATH,".//div[contains(@class,'current')]/span[text()='Соусы']").text
-    assert 'Соусы' in element
+        driver.find_element(By.XPATH, Locators.sauces_non_active).click()
 
-    driver.quit()
+        element = driver.find_element(By.XPATH,Locators.sauces_active).text
+        assert 'Соусы' in element
 
-def test_tarnsfer_to_stuffing_in_constructor_click_on_stuffing_stuffing_active():
-    driver = webdriver.Chrome()
-    driver.get("https://stellarburgers.nomoreparties.site/")
+    def test_tarnsfer_to_stuffing_in_constructor_click_on_stuffing_stuffing_active(self, driver):
+        driver.get(url)
 
-    driver.find_element(By.XPATH, ".//div[@class='tab_tab__1SPyG  pt-4 pr-10 pb-4 pl-10 noselect']/span[text()='Начинки']").click()
+        driver.find_element(By.XPATH, Locators.stuffing_non_active).click()
 
-    element = driver.find_element(By.XPATH,".//div[contains(@class,'current')]/span[text()='Начинки']").text
-    assert 'Начинки' in element
+        element = driver.find_element(By.XPATH,Locators.stuffing_active).text
+        assert 'Начинки' in element
+    def test_tarnsfer_to_buns_in_constructor_click_on_buns_buns_active(self, driver):
+        driver.get(url)
 
-    driver.quit()
+        driver.find_element(By.XPATH,Locators.stuffing_non_active).click()
+        driver.find_element(By.XPATH, Locators.buns_non_active).click()
 
-def test_tarnsfer_to_buns_in_constructor_click_on_buns_buns_active():
-    driver = webdriver.Chrome()
-    driver.get("https://stellarburgers.nomoreparties.site/")
+        element = driver.find_element(By.XPATH,Locators.buns_active).text
+        assert 'Булки' in element
 
-    driver.find_element(By.XPATH,".//div[@class='tab_tab__1SPyG  pt-4 pr-10 pb-4 pl-10 noselect']/span[text()='Начинки']").click()
-    driver.find_element(By.XPATH, ".//div[@class='tab_tab__1SPyG  pt-4 pr-10 pb-4 pl-10 noselect']/span[text()='Булки']").click()
-
-    element = driver.find_element(By.XPATH,".//div[contains(@class,'current')]/span[text()='Булки']").text
-    assert 'Булки' in element
-
-    driver.quit()

@@ -1,76 +1,66 @@
-import pytest
 from selenium.webdriver.common.by import By
-from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
+from locators import Locators
+from config import url
+from data import Data
 
-def test_login_on_the_main_page_clicking_on_button_login_login_completed():
-    driver = webdriver.Chrome()
-    driver.get("https://stellarburgers.nomoreparties.site/")
+class TestLogin:
+    def test_login_on_the_main_page_clicking_on_button_login_login_completed(self, driver):
+        driver.get(url)
 
-    driver.find_element(By.XPATH, ".//button[text()='Войти в аккаунт']").click()
-    driver.find_element(By.XPATH, ".//fieldset[1]//input").send_keys("aleksandra_rusakova_10_502@gmail.com")
-    driver.find_element(By.XPATH, ".//fieldset[2]//input").send_keys("404485")
-    driver.find_element(By.XPATH, ".//button[text()='Войти']").click()
+        driver.find_element(By.XPATH, Locators.log_in).click()
+        driver.find_element(By.XPATH, Locators.emeil_log_in).send_keys(Data.email)
+        driver.find_element(By.XPATH, Locators.password_log_in).send_keys(Data.password)
+        driver.find_element(By.XPATH, Locators.log_in_button).click()
 
-    WebDriverWait(driver, 10).until(expected_conditions.presence_of_element_located((By.XPATH, ".//button[text()='Оформить заказ']")))
+        WebDriverWait(driver, 10).until(expected_conditions.presence_of_element_located((By.XPATH, Locators.order)))
 
-    element = driver.find_element(By.XPATH,".//button[text()='Оформить заказ']").text
-    assert 'Оформить заказ' in element
+        element = driver.find_element(By.XPATH,Locators.order).text
+        assert 'Оформить заказ' in element
 
-    driver.quit()
+    def test_login_on_the_main_page_clicking_on_button_personal_cabinet_login_completed(self, driver):
 
+        driver.get(url)
 
-def test_login_on_the_main_page_clicking_on_button_personal_cabinet_login_completed():
-    driver = webdriver.Chrome()
-    driver.get("https://stellarburgers.nomoreparties.site/")
+        driver.find_element(By.XPATH, Locators.personal_account).click()
+        driver.find_element(By.XPATH, Locators.emeil_log_in).send_keys(Data.email)
+        driver.find_element(By.XPATH, Locators.password_log_in).send_keys(Data.password)
+        driver.find_element(By.XPATH, Locators.log_in_button).click()
 
-    driver.find_element(By.XPATH, ".//p[text()='Личный Кабинет']").click()
-    driver.find_element(By.XPATH, ".//fieldset[1]//input").send_keys("aleksandra_rusakova_10_502@gmail.com")
-    driver.find_element(By.XPATH, ".//fieldset[2]//input").send_keys("404485")
-    driver.find_element(By.XPATH, ".//button[text()='Войти']").click()
+        WebDriverWait(driver, 10).until(expected_conditions.presence_of_element_located((By.XPATH, Locators.order)))
+        element = driver.find_element(By.XPATH, Locators.order).text
+        assert 'Оформить заказ' in element
 
-    WebDriverWait(driver, 10).until(expected_conditions.presence_of_element_located((By.XPATH, ".//button[text()='Оформить заказ']")))
-    element = driver.find_element(By.XPATH, ".//button[text()='Оформить заказ']").text
-    assert 'Оформить заказ' in element
+    def test_login_on_the_main_page_clicking_on_button_login_in_registration_form_login_completed(self, driver):
+        driver.get(url)
 
-    driver.quit()
+        driver.find_element(By.XPATH, Locators.personal_account).click()
+        driver.find_element(By.XPATH, Locators.sign_up).click()
+        driver.find_element(By.XPATH, Locators.log_in_sign_up).click()
 
-def test_login_on_the_main_page_clicking_on_button_login_in_registration_form_login_completed():
-    driver = webdriver.Chrome()
-    driver.get("https://stellarburgers.nomoreparties.site/")
+        driver.find_element(By.XPATH, Locators.emeil_log_in).send_keys(Data.email)
+        driver.find_element(By.XPATH, Locators.password_log_in).send_keys(Data.password)
+        driver.find_element(By.XPATH, Locators.log_in_button).click()
 
-    driver.find_element(By.XPATH, ".//p[text()='Личный Кабинет']").click()
-    driver.find_element(By.XPATH, ".//a[text()='Зарегистрироваться']").click()
-    driver.find_element(By.XPATH, ".//a[text()='Войти']").click()
+        WebDriverWait(driver, 10).until(expected_conditions.presence_of_element_located((By.XPATH, Locators.order)))
+        element = driver.find_element(By.XPATH, Locators.order).text
+        assert 'Оформить заказ' in element
 
-    driver.find_element(By.XPATH, ".//fieldset[1]//input").send_keys("aleksandra_rusakova_10_502@gmail.com")
-    driver.find_element(By.XPATH, ".//fieldset[2]//input").send_keys("404485")
-    driver.find_element(By.XPATH, ".//button[text()='Войти']").click()
+    def test_login_on_the_main_page_clicking_on_button_login_in_restore_password_form_login_completed(self, driver):
+        driver.get(url)
 
-    WebDriverWait(driver, 10).until(expected_conditions.presence_of_element_located((By.XPATH, ".//button[text()='Оформить заказ']")))
-    element = driver.find_element(By.XPATH, ".//button[text()='Оформить заказ']").text
-    assert 'Оформить заказ' in element
+        driver.find_element(By.XPATH, Locators.personal_account).click()
+        driver.find_element(By.XPATH, Locators.sign_up).click()
+        driver.find_element(By.XPATH, Locators.log_in_restore_password).click()
 
-    driver.quit()
+        driver.find_element(By.XPATH, Locators.emeil_log_in).send_keys(Data.email)
+        driver.find_element(By.XPATH, Locators.password_log_in).send_keys(Data.password)
+        driver.find_element(By.XPATH, Locators.log_in_button).click()
 
+        WebDriverWait(driver, 10).until(
+            expected_conditions.presence_of_element_located((By.XPATH, Locators.order)))
+        element = driver.find_element(By.XPATH, Locators.order).text
+        assert 'Оформить заказ' in element
 
-def test_login_on_the_main_page_clicking_on_button_login_in_restore_password_form_login_completed():
-    driver = webdriver.Chrome()
-    driver.get("https://stellarburgers.nomoreparties.site/")
-
-    driver.find_element(By.XPATH, ".//p[text()='Личный Кабинет']").click()
-    driver.find_element(By.XPATH, ".//a[text()='Зарегистрироваться']").click()
-    driver.find_element(By.XPATH, ".//a[text()='Войти']").click()
-
-    driver.find_element(By.XPATH, ".//fieldset[1]//input").send_keys("aleksandra_rusakova_10_502@gmail.com")
-    driver.find_element(By.XPATH, ".//fieldset[2]//input").send_keys("404485")
-    driver.find_element(By.XPATH, ".//button[text()='Войти']").click()
-
-    WebDriverWait(driver, 10).until(
-        expected_conditions.presence_of_element_located((By.XPATH, ".//button[text()='Оформить заказ']")))
-    element = driver.find_element(By.XPATH, ".//button[text()='Оформить заказ']").text
-    assert 'Оформить заказ' in element
-
-    driver.quit()
 
